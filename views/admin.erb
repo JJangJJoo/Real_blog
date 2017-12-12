@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Real blog</title>
+    <title>Admin page</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
@@ -15,24 +15,15 @@
     <a class="nav-link" href="/signup">회원가입</a>
   </li>
 </ul>
-    <h1>Welcome To Real Blog!</h1>
-    <form action ="/create">
-      <div class="form-group">
-        <label for="exampleInputEmail1">제목</label>
-        <input type="text" name = "title" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="제목 입력하시오">
-      </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1">내용</label>
-        <input type="text" name = "content" class="form-control" id="exampleInputPassword1" placeholder="내용을 입력하세요">
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    <h1>관리자 페이지입니다.</h1>
 
-    <% @posts.each do |post| %>
+    <% @users.each do |user| %>
       <div class="card">
         <div class="card-body">
-          <p>제목: <%= post.title %></p>
-          <p>내용: <%= post.body %></p>
+          <p><%= user.id %></p>
+          <p>email: <%= user.email %></p>
+          <p>password: <%= user.password %></p>
+          <p><%= user.created_at %></p>
         </div>
       </div>
     <% end %>
