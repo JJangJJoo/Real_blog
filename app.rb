@@ -2,34 +2,11 @@ require 'rubygems'
 require 'sinatra'
 require 'sinatra/reloader'
 require 'data_mapper' # metagem, requires common plugins too.
+require './model.rb' #Database 관련 파일(model.rb)
 
 set :bind, '0.0.0.0'
-# need install dm-sqlite-adapter
-DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/blog.db")
 
-class Post
-  include DataMapper::Resource
-  property :id, Serial
-  property :title, String
-  property :body, Text
-  property :created_at, DateTime
-end
-
-class User
-  include DataMapper::Resource
-  property :id, Serial
-  property :email, String
-  property :password, String
-  property :created_at, DateTime
-end
-
-# Perform basic sanity checks and initialize all relationships
-# Call this when you've defined all your models
-DataMapper.finalize
-
-# automatically create the post table
-Post.auto_upgrade!
-User.auto_upgrade!
+enable :sessions
 
 get '/' do
   @posts = Post.all.reverse #[1번포스트 객체, 2번포스트객체, 3번객체...]
@@ -62,4 +39,28 @@ get '/admin' do
   erb :admin
   #모든 유저를 불러와
   #admin.erb에서 모든 유저를 보여준다.
+end
+
+get '/login' do
+  erb :login
+end
+
+get '/login_session' do
+  if User.first(:email => params["email"])
+    if User.first(:email => params["email"]).password == params["password"]
+      session[:email] = params["email"]
+      @message = "Login Completed!"
+    else
+      @message = "Login failed"
+    end
+    else
+      @message = "There is no user in our database!"
+    end
+    erb :login_session
+end
+
+
+get '/logout' do
+  session.clear
+  redirect to '/'
 end
